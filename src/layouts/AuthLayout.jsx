@@ -1,4 +1,4 @@
 // LAYOUT: AuthLayout
 // This is the page template for the login and signup pages.
-// It shows a clean centered design with no sidebar —
+// It shows a clean centered design with no sidebar ï¿½
 // just the app logo and a form in the middle of the screen.

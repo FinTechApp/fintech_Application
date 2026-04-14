@@ -1,0 +1,10 @@
+.item {
+  padding: 8px 16px;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.item:hover {
+  background: #f0f0f0;
+}
