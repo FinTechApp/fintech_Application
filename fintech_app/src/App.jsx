@@ -1,10 +1,9 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import React from "react";
+// import Upload from './Upload.jsx'
+import VerifyEmail from './VerifyEmail.jsx';
 
 function App() {
+<<<<<<< feature/upload-passport
   return (
     <>
       <section id="center">
@@ -114,6 +113,18 @@ function App() {
       <section id="spacer"></section>
     </>
   )
+=======
+  
+  return(
+ <>
+ {/*Show upload page*/}
+ {/* <Upload/> */}
+
+ {/*Show verify page*/}
+ <VerifyEmail/>
+ </>
+  );
+>>>>>>> main
 }
 
 export default App
