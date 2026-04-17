@@ -1,14 +1,13 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import LandingPage from './pages/LandingPage'
-import SignUp from './pages/Auth/SignUp'
+import { BrowserRouter } from "react-router-dom"
+import { AuthProvider } from "./context/AuthContext"
+import AppRoutes from "./routes/index"
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/signup" element={<SignUp />} />
-      </Routes>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
     </BrowserRouter>
   )
 }

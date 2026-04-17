@@ -1,5 +1,9 @@
-// PAGE: Set Transaction PIN
-// This is the page where the user creates a 4-digit PIN
-// that they will use to authorize every money transfer.
-// This is Step 4 of the identity verification process.
-// Route: /onboarding/set-pin
+const SetTransactionPin = () => {
+  return (
+    <div style={{ padding: 40, fontFamily: 'DM Sans, sans-serif' }}>
+      <h1>SetTransactionPin</h1>
+    </div>
+  )
+}
+
+export default SetTransactionPin
