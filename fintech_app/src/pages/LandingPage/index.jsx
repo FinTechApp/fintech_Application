@@ -1,9 +1,10 @@
 // PAGE: Landing Page
 // This is the first page anyone sees when they visit the app before they log in.
 // It introduces the app, shows its key features,
-// and has two buttons � one to Sign Up and one to Sign In.
+// and has two buttons — one to Sign Up and one to Sign In.
 // Route: /
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styles from './LandingPage.module.css'
 import Hero from '/src/assets/homepage/hero.svg'
 import sendIcon from '/src/assets/homepage/send-icon.svg'
@@ -35,6 +36,7 @@ function LandingPage() {
   const [method, setMethod] = useState('BankTransfer')
   const [receive, setRAmount] = useState(850000)
   const [rcurrency, setRcurrency] = useState('NGN')
+  const navigate = useNavigate()
 
   const handleAmountChange = (e) => {
     setAmount(e.target.value)
@@ -55,13 +57,14 @@ function LandingPage() {
   const handleMethodChange = (e) => {
     setMethod(e.target.value)
   }
+
   return (
     <div className={styles.container}>
       <nav>
         <h2 className={styles.logo}>Cosmo Remit</h2>
         <div className={styles.buttonDiv}>
-          <button className={styles.login}>Log in</button>
-          <button className={styles.register}>Register</button>
+          <button className={styles.login} onClick={() => navigate('/signin')}>Log in</button>
+          <button className={styles.register} onClick={() => navigate('/signup')}>Register</button>
         </div>
       </nav>
       <header className={styles.hero}>
@@ -161,7 +164,7 @@ function LandingPage() {
           <div className={styles.closerInfo}>
             <h2>We are closer than you think</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eros tortor, consectetur eget libero non, condimentu</p>
-            <button className={styles.registerBtn}>Register <img src={CloserArrowRight} alt="" /></button>
+            <button className={styles.registerBtn} onClick={() => navigate('/signup')}>Register <img src={CloserArrowRight} alt="" /></button>
           </div>
         </div>
       </section>
@@ -200,7 +203,7 @@ function LandingPage() {
           <img src={Transfer} alt="" />
           <div className={styles.transferRight}>
             <div className={styles.transferTop}>
-              <h2><span style={{ color: "#E91908" }}>Distance</span> shouldn’t stand between you and your money</h2>
+              <h2><span style={{ color: "#E91908" }}>Distance</span> shouldn't stand between you and your money</h2>
             </div>
             <div className={styles.transferBottom}>
               <div className={styles.group}>
@@ -224,7 +227,7 @@ function LandingPage() {
         <div className={styles.fastWayContent}>
           <h3>We are the fastest way to</h3>
           <h2>send money abroad</h2>
-          <button className={styles.registerBtn}>Register <img src={CloserArrowRight} alt="" /></button>
+          <button className={styles.registerBtn} onClick={() => navigate('/signup')}>Register <img src={CloserArrowRight} alt="" /></button>
         </div>
       </section>
       <section className={styles.news}>
@@ -237,14 +240,14 @@ function LandingPage() {
               <div className={styles.newsCard}>
                 <img src={NewsImg1} alt="" />
                 <div className={styles.cardBottom}>
-                  <h3>Nigerian Naira reduces it’s value....</h3>
+                  <h3>Nigerian Naira reduces it's value....</h3>
                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eros tortor,</p>
                 </div>
               </div>
               <div className={styles.newsCard}>
                 <img src={NewsImg2} alt="" />
                 <div className={styles.cardBottom}>
-                  <h3>Nigerian Naira reduces it’s value....</h3>
+                  <h3>Nigerian Naira reduces it's value....</h3>
                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eros tortor,</p>
                 </div>
               </div>
@@ -322,4 +325,4 @@ function LandingPage() {
   )
 }
 
-export default LandingPage 
+export default LandingPage
