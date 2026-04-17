@@ -1,3 +1,19 @@
+<<<<<<< feature/upload-passport
+.frame137{
+  position: absolute;
+  top: 36px;
+  left: 180px;
+  width: 952px;
+  height: 72px;
+  color: #939393;
+  font-family: 'poppins', sans-serif;
+  font-weight: 500;
+  border-bottom: #C5C5C5 solid 1px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 47px;
+=======
 /* @import "tailwindcss";
 
 :root {
@@ -30,80 +46,68 @@
   @media (max-width: 1024px) {
     font-size: 16px;
   }
+>>>>>>> main
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+.vector {
+  background-color: #E9E4E4;
+  border-radius: 5px;
+  margin-right: 10px;
+  padding: 3px;
 }
-
-body {
-  margin: 0;
+.number {
+  margin-right: 10px;
 }
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
+.item, .items{
   display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+  align-items: center;
 }
-
-h1,
-h2 {
-  font-family: var(--heading);
+.items{
+  color: black;
   font-weight: 500;
-  color: var(--text-h);
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+.frame139{
+  position: absolute;
+  width: 678px;
+  height: 48px;
+  top: 130px;
+  left: 500px;
+  color: black;
+  font-family: 'poppins', sans-serif;
+  font-weight: 600;
+  font-size: 23px;
+  font-style: medium;
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
+.frame140{
+  position: absolute;
+  top: 150px;
+  left: 500px;
+  padding: 60px;
 }
-p {
-  margin: 0;
+button{
+  background-color: #E91908;
+  position: absolute;
+  top: 440px;
+  left: 570px;
+  width: 150px;
+  color: white;
+  font-family: 'poppins', sans-serif;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
 }
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+<<<<<<< feature/upload-passport
+button:hover{
+  background-color: #E91908;
+  opacity: 0.8;
 }
+button:active{
+  background-color: #E91908;
+  opacity: 0.6;
+}
+=======
 
 code {
   font-size: 15px;
@@ -111,3 +115,4 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 } */
+>>>>>>> main
