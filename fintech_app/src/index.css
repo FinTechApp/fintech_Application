@@ -19,7 +19,10 @@ body {
   overflow-x: hidden;
 }
 
-
+html {
+  background-color: #ffffff;
+  width: 100%;
+}
 
 #root {
   min-height: 100vh;
