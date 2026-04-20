@@ -1,4 +1,9 @@
-// PAGE: Limit Increase Success
-// This is the success page shown when the user's limit increase has been approved.
-// It congratulates them and tells them their new limits are now active.
-// Route: /limits/success
+const LimitIncreaseSuccess = () => {
+  return (
+    <div style={{ padding: 40, fontFamily: 'DM Sans, sans-serif' }}>
+      <h1>LimitIncreaseSuccess</h1>
+    </div>
+  )
+}
+
+export default LimitIncreaseSuccess

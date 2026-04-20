@@ -1,4 +1,9 @@
-// PAGE: Add Beneficiary
-// This is the page where the user adds a new person to send money to.
-// They fill in the person's full name, bank name, account number, and country.
-// Route: /beneficiaries/add
+const AddBeneficiary = () => {
+  return (
+    <div style={{ padding: 40, fontFamily: 'DM Sans, sans-serif' }}>
+      <h1>AddBeneficiary</h1>
+    </div>
+  )
+}
+
+export default AddBeneficiary

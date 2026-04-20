@@ -1,0 +1,169 @@
+/* verifyemail.css */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.verify-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0;
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+    background-color: #ffffff;
+}
+/* This makes the full page white behind the container */
+body, html {
+    background-color: #ffffff !important;
+    min-height: 100vh;
+    width: 100%;
+}
+/* ── Step Indicator ── */
+.steps {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding: 0 10px;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #aaa;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.step.active {
+    color: #111;
+    font-weight: 700;
+}
+
+.step.completed {
+    color: #aaa;
+}
+
+/* Step boxes */
+.box1 {
+    padding: 6px 12px;
+    border-radius: 7px;
+    color: white;
+    background-color: #E8402A;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.box2 {
+    padding: 6px 12px;
+    border-radius: 7px;
+    color: #999;
+    background-color: #E0E0E0;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.box3 {
+    padding: 6px 12px;
+    border-radius: 7px;
+    color: #999;
+    background-color: #E0E0E0;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Divider */
+hr {
+    border: none;
+    border-top: 1px solid #E8E8E8;
+    margin-bottom: 28px;
+}
+
+/* ── Blue border box ── */
+.verify-box {
+    border: none;
+    border-radius: 8px;
+    padding: 40px 20px;
+    margin-bottom: 32px;
+}
+
+.verify-box h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 16px;
+    font-family: 'DM Sans', sans-serif;
+}
+
+/* Illustration */
+.icon img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    margin: 24px 0;
+}
+/* ── Text below box ── */
+.verify-text {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 24px;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.verify-text strong {
+    color: #111;
+    font-weight: 700;
+}
+
+/* ── Action buttons ── */
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.actions button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+}
+
+.resend-btn {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.verify-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+/* ── Next Button ── */
+.next-btn {
+    background-color: #D0D0D0;
+    color: #fff;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: not-allowed;
+    margin-top: 8px;
+    transition: background-color 0.2s;
+}
+
+.next-btn.active {
+    background-color: #E8402A;
+    cursor: pointer;
+}

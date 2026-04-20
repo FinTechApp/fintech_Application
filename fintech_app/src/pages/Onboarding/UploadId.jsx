@@ -1,5 +1,9 @@
-// PAGE: Upload ID
-// This is the page where the user uploads a photo of their
-// government-issued ID card (front and back).
-// This is Step 1 of the identity verification process.
-// Route: /onboarding/upload-id
+const UploadId = () => {
+  return (
+    <div style={{ padding: 40, fontFamily: 'DM Sans, sans-serif' }}>
+      <h1>UploadId</h1>
+    </div>
+  )
+}
+
+export default UploadId

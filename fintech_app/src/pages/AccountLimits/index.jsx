@@ -1,5 +1,9 @@
-// PAGE: Account Limits
-// This page shows the user how much money they are allowed to send
-// per day, per week, and per month.
-// If they want to increase their limit, there is a button to start the process.
-// Route: /limits
+const index = () => {
+  return (
+    <div style={{ padding: 40, fontFamily: 'DM Sans, sans-serif' }}>
+      <h1>index</h1>
+    </div>
+  )
+}
+
+export default index

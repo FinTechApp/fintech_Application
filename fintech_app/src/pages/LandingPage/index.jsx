@@ -1,9 +1,10 @@
 // PAGE: Landing Page
 // This is the first page anyone sees when they visit the app before they log in.
 // It introduces the app, shows its key features,
-// and has two buttons � one to Sign Up and one to Sign In.
+// and has two buttons — one to Sign Up and one to Sign In.
 // Route: /
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import styles from './LandingPage.module.css'
 import Hero from '/src/assets/homepage/hero.svg'
 import sendIcon from '/src/assets/homepage/send-icon.svg'
@@ -55,20 +56,29 @@ function LandingPage() {
   const handleMethodChange = (e) => {
     setMethod(e.target.value)
   }
+
   return (
     <div className={styles.container}>
       <nav>
         <h2 className={styles.logo}>Cosmo Remit</h2>
         <div className={styles.buttonDiv}>
-          <button className={styles.login}>Log in</button>
-          <button className={styles.register}>Register</button>
+          {/* Login button — links to Sign In page */}
+          <Link to="/signin">
+            <button className={styles.login}>Log in</button>
+          </Link>
+          {/* Register button — links to Sign Up page */}
+          <Link to="/signup">
+            <button className={styles.register}>Register</button>
+          </Link>
         </div>
       </nav>
+
       <header className={styles.hero}>
         <img className={styles.heroImg} src={Hero} alt="" />
         <div className={styles.heroOverlay}>
           <div className={styles.left}>
-            <h1>Send Money <br /> </h1> <h1 className={styles.leftBottom}><span>without</span> Borders</h1>
+            <h1>Send Money <br /> </h1>
+            <h1 className={styles.leftBottom}><span>without</span> Borders</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eros tortor, consectetur eget libero non, condimentum sagittis mauris. Ut molestie euismod neque. Proin eget odio</p>
           </div>
           <div className={styles.right}>
@@ -83,11 +93,11 @@ function LandingPage() {
             </div>
             <div className={styles.amount}>
               <div className={styles.inputGroup}>
-                <input 
-                  type="number" 
-                  id="amount" 
-                  value={amount} 
-                  onChange={handleAmountChange} 
+                <input
+                  type="number"
+                  id="amount"
+                  value={amount}
+                  onChange={handleAmountChange}
                   placeholder=" "
                 />
                 <label htmlFor="amount">You send</label>
@@ -95,7 +105,13 @@ function LandingPage() {
               <Selector value={currency} onChange={handleCurrencyChange} />
             </div>
             <div className={styles.method}>
-              <select name="payment-method" id="payment-method" value={method} onChange={handleMethodChange} className={styles.selectMethod}>
+              <select
+                name="payment-method"
+                id="payment-method"
+                value={method}
+                onChange={handleMethodChange}
+                className={styles.selectMethod}
+              >
                 <option value="BankTransfer">Bank Transfer</option>
                 <option value="CardPayment">Card Payment</option>
               </select>
@@ -110,11 +126,11 @@ function LandingPage() {
             </div>
             <div className={styles.recieve}>
               <div className={styles.inputGroup}>
-                <input 
-                  type="number" 
-                  id="amount" 
-                  value={receive} 
-                  onChange={handleRAmountChange} 
+                <input
+                  type="number"
+                  id="amount"
+                  value={receive}
+                  onChange={handleRAmountChange}
                   placeholder=" "
                 />
                 <label htmlFor="amount">Recipient gets</label>
@@ -122,11 +138,15 @@ function LandingPage() {
               <RSelector value={rcurrency} onChange={handleRCurrencyChange} />
             </div>
             <div className={styles.sendBtn}>
-              <button>Send <img src={sendIcon} alt="" /></button>
+              {/* Send button — links to Sign Up page */}
+              <Link to="/signup">
+                <button>Send <img src={sendIcon} alt="" /></button>
+              </Link>
             </div>
           </div>
         </div>
       </header>
+
       <section className={styles.convince}>
         <div className={styles.convinceHeading}>
           <h1>Why choose Frica Xchange</h1>
@@ -155,16 +175,23 @@ function LandingPage() {
           </div>
         </div>
       </section>
+
       <section className={styles.closer}>
         <div className={styles.closerContainer}>
           <img src={Map} alt="" />
           <div className={styles.closerInfo}>
             <h2>We are closer than you think</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eros tortor, consectetur eget libero non, condimentu</p>
-            <button className={styles.registerBtn}>Register <img src={CloserArrowRight} alt="" /></button>
+            {/* Register button — links to Sign Up page */}
+            <Link to="/signup">
+              <button className={styles.registerBtn}>
+                Register <img src={CloserArrowRight} alt="" />
+              </button>
+            </Link>
           </div>
         </div>
       </section>
+
       <section className={styles.howSection}>
         <div className={styles.howSectionHeading}>
           <h2>How Does It Work?</h2>
@@ -192,15 +219,19 @@ function LandingPage() {
           </div>
         </div>
       </section>
+
       <section className={styles.sendTo}>
         <img src={SendTo} alt="" />
       </section>
+
       <section className={styles.transfer}>
         <div className={styles.transferContainer}>
           <img src={Transfer} alt="" />
           <div className={styles.transferRight}>
             <div className={styles.transferTop}>
-              <h2><span style={{ color: "#E91908" }}>Distance</span> shouldn’t stand between you and your money</h2>
+              <h2>
+                <span style={{ color: "#E91908" }}>Distance</span> shouldn't stand between you and your money
+              </h2>
             </div>
             <div className={styles.transferBottom}>
               <div className={styles.group}>
@@ -219,14 +250,21 @@ function LandingPage() {
           </div>
         </div>
       </section>
+
       <section className={styles.fastWay}>
         <img src={FastWay} alt="" />
         <div className={styles.fastWayContent}>
           <h3>We are the fastest way to</h3>
           <h2>send money abroad</h2>
-          <button className={styles.registerBtn}>Register <img src={CloserArrowRight} alt="" /></button>
+          {/* Register button — links to Sign Up page */}
+          <Link to="/signup">
+            <button className={styles.registerBtn}>
+              Register <img src={CloserArrowRight} alt="" />
+            </button>
+          </Link>
         </div>
       </section>
+
       <section className={styles.news}>
         <div className={styles.newsContainer}>
           <div className={styles.newsHeading}>
@@ -237,14 +275,14 @@ function LandingPage() {
               <div className={styles.newsCard}>
                 <img src={NewsImg1} alt="" />
                 <div className={styles.cardBottom}>
-                  <h3>Nigerian Naira reduces it’s value....</h3>
+                  <h3>Nigerian Naira reduces it's value....</h3>
                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eros tortor,</p>
                 </div>
               </div>
               <div className={styles.newsCard}>
                 <img src={NewsImg2} alt="" />
                 <div className={styles.cardBottom}>
-                  <h3>Nigerian Naira reduces it’s value....</h3>
+                  <h3>Nigerian Naira reduces it's value....</h3>
                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eros tortor,</p>
                 </div>
               </div>
@@ -278,6 +316,7 @@ function LandingPage() {
           </div>
         </div>
       </section>
+
       <section className={styles.download}>
         <div className={styles.downloadLeft}>
           <h2>Get the app</h2>
@@ -311,6 +350,7 @@ function LandingPage() {
           <img src={Download} alt="" />
         </div>
       </section>
+
       <section className={styles.newsletter}>
         <h2>Subscribe to our rates alert</h2>
         <div>
@@ -318,8 +358,9 @@ function LandingPage() {
           <button>Subscribe</button>
         </div>
       </section>
+
     </div>
   )
 }
 
-export default LandingPage 
+export default LandingPage
