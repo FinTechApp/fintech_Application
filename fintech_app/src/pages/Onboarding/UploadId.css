@@ -1,0 +1,278 @@
+/* ─── Variables ─────────────────────────────────────────── */
+:root {
+  --primary: #FF0000;
+  --primary-dark: #FF0000;;
+  --primary-light: #fff0f1;
+  --text-main: #111827;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+  --bg-page: #f3f4f6;
+  --bg-card: #ffffff;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.08);
+  --font-main: 'DM Sans', sans-serif;
+  --transition: 0.2s ease;
+}
+
+/* ─── Page Shell ─────────────────────────────────────────── */
+.upload-id-page {
+  min-height: 100vh;
+  background: var(--bg-page);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  font-family: var(--font-main);
+}
+
+/* ─── Card ───────────────────────────────────────────────── */
+.upload-id-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  width: 100%;
+  max-width: 400px;
+  padding: 32px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ─── Header ─────────────────────────────────────────────── */
+.uid-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  position: relative;
+}
+
+.uid-back-btn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-main);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background var(--transition);
+}
+
+.uid-back-btn:hover {
+  background: var(--border);
+}
+
+.uid-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.uid-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ─── Form ───────────────────────────────────────────────── */
+.uid-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.uid-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.uid-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: 0.1px;
+}
+
+/* ─── Input ──────────────────────────────────────────────── */
+.uid-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-family: var(--font-main);
+  color: var(--text-main);
+  background: #fafafa;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  box-sizing: border-box;
+}
+
+.uid-input::placeholder {
+  color: #c4c9d4;
+}
+
+.uid-input:focus {
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 3px #FF0000;
+}
+
+/* ─── Select ─────────────────────────────────────────────── */
+.uid-select-wrapper {
+  position: relative;
+}
+
+.uid-select {
+  width: 100%;
+  padding: 12px 36px 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-family: var(--font-main);
+  color: var(--text-main);
+  background: #fafafa;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  box-sizing: border-box;
+}
+
+.uid-select:focus {
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 3px #FF0000;
+}
+
+.uid-select option[value=""] {
+  color: #c4c9d4;
+}
+
+.uid-select-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+}
+
+/* ─── Upload Area ────────────────────────────────────────── */
+.uid-upload-area {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-md);
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  background: #fafafa;
+  transition: border-color var(--transition), background var(--transition);
+  text-align: center;
+}
+
+.uid-upload-area:hover,
+.uid-upload-area.drag-over {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.uid-upload-area.has-file {
+  border-color: #16a34a;
+  background: #f0fdf4;
+}
+
+.uid-upload-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.uid-upload-icon.success {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.uid-upload-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 0;
+}
+
+.uid-upload-filename {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #16a34a;
+  margin: 0;
+  word-break: break-all;
+  max-width: 240px;
+}
+
+.uid-upload-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ─── Next Button ────────────────────────────────────────── */
+.uid-next-btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: var(--font-main);
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 4px 14px #FF0000;
+}
+
+.uid-next-btn:hover {
+  background: var(--primary-dark);
+  box-shadow: 0 6px 20px #FF0000;
+}
+
+.uid-next-btn:active {
+  transform: scale(0.98);
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .upload-id-card {
+    padding: 28px 18px 24px;
+    border-radius: var(--radius-md);
+  }
+
+  .uid-title {
+    font-size: 1.1rem;
+  }
+}
