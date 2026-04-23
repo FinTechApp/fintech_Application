@@ -36,6 +36,7 @@ export default function PinInput({ value, setValue }) {
         inputsRef.current[index - 1].focus();
       }
     }
+    
   };
 
   return (
