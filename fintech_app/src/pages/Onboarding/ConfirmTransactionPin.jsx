@@ -12,6 +12,7 @@ export default function App() {
   const [step, setStep] = useState("set"); // "set" | "confirm"
   const [pin, setPin] = useState("");
   const [confirmPin, setConfirmPin] = useState("");
+  
 
   const handleSetSubmit = () => {
     if (pin.length === 4) {
