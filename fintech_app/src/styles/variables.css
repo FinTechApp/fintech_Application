@@ -2,3 +2,56 @@
    This stores the brand colours, font sizes, and spacing values for the app.
    For example the primary brand colour is defined here
    so it stays consistent across every page and component. */
+
+   body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+.pin-container {
+  display: flex;
+  gap: 15px;
+}
+
+.pin-box {
+  width: 60px;
+  height: 60px;
+  background: #ddd;
+  border: none;
+  text-align: center;
+  font-size: 24px;
+  border-radius: 6px;
+  outline: none;
+}
+
+.pin-box:focus {
+  background: #ccc;
+}
+
+.btn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: darkred;
+}
