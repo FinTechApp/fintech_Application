@@ -1,5 +1,9 @@
-// PAGE: Profile
-// This is the profile page where the user can view and edit their personal details.
-// It shows their name, email address, and phone number.
-// The user can also log out of their account from this page.
-// Route: /profile
+const index = () => {
+  return (
+    <div style={{ padding: 40, fontFamily: 'DM Sans, sans-serif' }}>
+      <h1>index</h1>
+    </div>
+  )
+}
+
+export default index

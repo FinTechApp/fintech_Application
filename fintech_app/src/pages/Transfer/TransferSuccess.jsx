@@ -1,5 +1,9 @@
-// PAGE: Transfer Success (Step 5)
-// This is the final step — a success screen with a checkmark
-// that tells the user their money was sent successfully.
-// There is a button to go back to the dashboard.
-// Route: /transfer/success
+const TransferSuccess = () => {
+  return (
+    <div style={{ padding: 40, fontFamily: 'DM Sans, sans-serif' }}>
+      <h1>TransferSuccess</h1>
+    </div>
+  )
+}
+
+export default TransferSuccess

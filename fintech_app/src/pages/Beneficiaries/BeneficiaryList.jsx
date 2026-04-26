@@ -1,5 +1,9 @@
-// PAGE: Beneficiary List
-// This page shows all the people the user has saved to send money to.
-// Each person's name, bank, and account number is shown.
-// There is also a button to add a new beneficiary.
-// Route: /beneficiaries
+const BeneficiaryList = () => {
+  return (
+    <div style={{ padding: 40, fontFamily: 'DM Sans, sans-serif' }}>
+      <h1>BeneficiaryList</h1>
+    </div>
+  )
+}
+
+export default BeneficiaryList

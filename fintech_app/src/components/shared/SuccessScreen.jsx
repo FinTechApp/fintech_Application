@@ -1,4 +1,9 @@
-// COMPONENT: SuccessScreen
-// This is a reusable success page with a big green checkmark,
-// a success message, and a button.
-// It is used after a successful transfer or a successful limit increase.
+const SuccessScreen = () => {
+  return (
+    <div style={{ padding: 40, fontFamily: 'DM Sans, sans-serif' }}>
+      <h1>SuccessScreen</h1>
+    </div>
+  )
+}
+
+export default SuccessScreen

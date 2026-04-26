@@ -1,3 +1,4 @@
+<<<<<<< feature/ConfirmPin
 // PAGE: Set Transaction PIN
 // This is the page where the user creates a 4-digit PIN
 // that they will use to authorize every money transfer.
@@ -57,3 +58,14 @@ export default function PinInput({ value, setValue }) {
     </div>
   );
 }
+=======
+const SetTransactionPin = () => {
+  return (
+    <div style={{ padding: 40, fontFamily: 'DM Sans, sans-serif' }}>
+      <h1>SetTransactionPin</h1>
+    </div>
+  )
+}
+
+export default SetTransactionPin
+>>>>>>> dev

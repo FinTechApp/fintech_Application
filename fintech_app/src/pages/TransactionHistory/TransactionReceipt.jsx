@@ -1,5 +1,9 @@
-// PAGE: Transaction Receipt
-// This is the detailed receipt page for a single transaction.
-// It shows the full details — recipient, amount, fees, exchange rate,
-// reference number, and the date and time of the transfer.
-// Route: /transactions/:id/receipt
+const TransactionReceipt = () => {
+  return (
+    <div style={{ padding: 40, fontFamily: 'DM Sans, sans-serif' }}>
+      <h1>TransactionReceipt</h1>
+    </div>
+  )
+}
+
+export default TransactionReceipt
