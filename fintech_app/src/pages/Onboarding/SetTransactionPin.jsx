@@ -58,7 +58,7 @@ export default function PinInput({ value, setValue }) {
     </div>
   );
 }
-=======
+
 const SetTransactionPin = () => {
   return (
     <div style={{ padding: 40, fontFamily: 'DM Sans, sans-serif' }}>
@@ -68,4 +68,4 @@ const SetTransactionPin = () => {
 }
 
 export default SetTransactionPin
->>>>>>> dev
+
