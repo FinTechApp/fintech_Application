@@ -1,6 +1,7 @@
 import React from "react";
 // import Upload from './Upload.jsx'
-import VerifyEmail from './VerifyEmail.jsx';
+// import VerifyEmail from './pages/Auth/VerifyEmail.jsx';
+import TransferSuccess from './pages/Transfer/TransferSuccess.jsx';
 
 function App() {
   
@@ -10,7 +11,10 @@ function App() {
  {/* <Upload/> */}
 
  {/*Show verify page*/}
- <VerifyEmail/>
+ {/* <VerifyEmail/> */}
+
+ {/* Show success page */}
+ <TransferSuccess/>
  </>
   );
 }
