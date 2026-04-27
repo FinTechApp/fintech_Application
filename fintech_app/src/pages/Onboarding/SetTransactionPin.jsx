@@ -1,4 +1,4 @@
-<<<<<<< feature/ConfirmPin
+// feature/ConfirmPin
 // PAGE: Set Transaction PIN
 // This is the page where the user creates a 4-digit PIN
 // that they will use to authorize every money transfer.
