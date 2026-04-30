@@ -7,9 +7,9 @@
 }
 .verify-container {
     width: 100%;
-    max-width: 1000px;
+    max-width: 600px;
     margin: 40px auto;
-    padding: 0;
+    padding: 0 20px;
     text-align: center;
     font-family: 'DM Sans', sans-serif;
     background-color: #ffffff;
@@ -101,6 +101,7 @@ hr {
 /* Illustration */
 .icon img {
     width: 100%;
+    max-width: 300px;
     height: auto;
     object-fit: contain;
     margin: 24px 0;

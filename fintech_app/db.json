@@ -1,3 +1,14 @@
 {
-  "users": []
+  "users": [
+    {
+      "firstName": "John",
+      "lastName": "Chidera",
+      "country": "Nigeria",
+      "email": "mail@mail.com",
+      "phone": "8139299382",
+      "password": "DELL@1234",
+      "id": "aYDg7qGfhvA"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
