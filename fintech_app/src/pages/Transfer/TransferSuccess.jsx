@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles.css";
+import "../../styles/variables.css";
 
 const TransferSuccess = ({ onDone }) => {
   return (
