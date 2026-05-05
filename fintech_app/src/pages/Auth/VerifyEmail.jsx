@@ -48,15 +48,14 @@ const VerifyEmail = () => {
 
         <hr />
 
-        {/* Blue border box */}
+        {/* Illustration image */}
         <div style={{ padding: "40px 20px 32px" }}>
-    {/* Illustration image */}
-    <div className="icon">
-        <img src={image} alt="verify email illustration" />
-    </div>
-</div>
+            <div className="icon">
+                <img src={image} alt="verify email illustration" />
+            </div>
+        </div>
 
-        {/* Text below box */}
+        {/* Text below */}
         <p className="verify-text">
             We've sent an Email to you <strong>Abrahamidoh@gmail.com.</strong>
             <br /> Please check your inbox to verify
@@ -67,10 +66,7 @@ const VerifyEmail = () => {
             <button className="resend-btn" onClick={handleResend}>
                 {emailSent ? "Resend Email" : "Sending..."}
             </button>
-
-            <button
-                className="verify-btn"
-                onClick={() => setIsVerified(true)}>
+            <button className="verify-btn" onClick={() => setIsVerified(true)}>
                 I've Verified
             </button>
         </div>
