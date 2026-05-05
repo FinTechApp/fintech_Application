@@ -1,5 +1,9 @@
-// PAGE: Transaction History
-// This page shows a list of all past transfers the user has made.
-// Each item shows the recipient name, amount sent, date, and transfer status.
-// Tapping on a transaction takes the user to the Transaction Receipt page.
-// Route: /transactions
+const index = () => {
+  return (
+    <div style={{ padding: 40, fontFamily: 'DM Sans, sans-serif' }}>
+      <h1>index</h1>
+    </div>
+  )
+}
+
+export default index

@@ -1,5 +1,9 @@
-// PAGE: Dashboard (Home)
-// This is the main home page after the user logs in.
-// It shows the user's account balance, quick action buttons like 'Send Money',
-// and a list of their most recent transactions.
-// Route: /home
+const index = () => {
+  return (
+    <div style={{ padding: 40, fontFamily: 'DM Sans, sans-serif' }}>
+      <h1>index</h1>
+    </div>
+  )
+}
+
+export default index

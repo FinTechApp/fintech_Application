@@ -1,22 +1,15 @@
-import React from "react";
-// import Upload from './Upload.jsx'
-// import VerifyEmail from './pages/Auth/VerifyEmail.jsx';
-import TransferSuccess from './pages/Transfer/TransferSuccess.jsx';
+import { BrowserRouter } from "react-router-dom"
+import { AuthProvider } from "./context/AuthContext"
+import AppRoutes from "./routes/index"
 
 function App() {
-  
-  return(
- <>
- {/*Show upload page*/}
- {/* <Upload/> */}
-
- {/*Show verify page*/}
- {/* <VerifyEmail/> */}
-
- {/* Show success page */}
- <TransferSuccess/>
- </>
-  );
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </BrowserRouter>
+  )
 }
 
 export default App
