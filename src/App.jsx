@@ -1,12 +1,11 @@
-import Items from './components/shared/Items.jsx';
-import './App.css';
-import Signup from './components/shared/signup.jsx';
 
+import './App.css';
+import TransferReceipt from './components/shared/TransferReceipt.jsx';
 
 function App() {
   return (
     <div>
-      <Signup />
+      <TransferReceipt />
     </div>
   );
 }
