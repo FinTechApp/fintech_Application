@@ -20,8 +20,8 @@ import hdiw4 from '/src/assets/homepage/hdiw(4).svg'
 import SendTo from '/src/assets/homepage/sendTo.svg'
 import Transfer from '/src/assets/homepage/TRANSFER.svg'
 import FastWay from '/src/assets/homepage/fastestWay.svg'
-import NewsImg1 from '/src/assets/homepage/newsCard(0).svg'
-import NewsImg2 from '/src/assets/homepage/newsCard(1).svg'
+// import NewsImg1 from '/src/assets/homepage/newsCard0.svg'
+import NewsImg2 from '/src/assets/homepage/newsCard1.svg'
 import Download from '/src/assets/homepage/DOWNLOAD.svg'
 import Ggl from '/src/assets/homepage/ggl.svg'
 import Apl from '/src/assets/homepage/apl.svg'
@@ -29,6 +29,8 @@ import Star from '/src/assets/homepage/fullStar.svg'
 import hStar from '/src/assets/homepage/halfStar.svg'
 import Selector from './CurrencySelector'
 import RSelector from './RCurrencySelector'
+
+const newsImg1 = new URL('/fintech_app/src/assets/homepage/newsCard0.svg', import.meta.url).href
 
 function LandingPage() {
   const [amount, setAmount] = useState(500)
@@ -59,7 +61,7 @@ function LandingPage() {
 
   return (
     <div className={styles.container}>
-      <nav>
+      <nav className={styles.nav}>
         <h2 className={styles.logo}>Cosmo Remit</h2>
         <div className={styles.buttonDiv}>
           {/* Login button — links to Sign In page */}
@@ -273,7 +275,7 @@ function LandingPage() {
           <div className={styles.newsBody}>
             <div className={styles.newsLeft}>
               <div className={styles.newsCard}>
-                <img src={NewsImg1} alt="" />
+                <img src={newsImg1} alt="" />
                 <div className={styles.cardBottom}>
                   <h3>Nigerian Naira reduces it's value....</h3>
                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eros tortor,</p>
