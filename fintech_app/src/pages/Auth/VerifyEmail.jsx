@@ -6,7 +6,7 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./verifyemail.css";
+import "./VerifyEmail.css";
 import image from "./image.jpg";
 
 const VerifyEmail = () => {
