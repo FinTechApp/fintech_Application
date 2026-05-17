@@ -1,11 +1,12 @@
 // PAGE: Confirm Transaction PIN
 // This is the page where the user types their new PIN a second time to confirm it.
-// If both PINs match, the setup is complete and they are taken to the dashboard.
+// If both PINs match, the PIN is saved to JSON Server and user goes to dashboard.
 // This is Step 5 of the identity verification process.
 // Route: /onboarding/confirm-pin
 
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "../../context/AuthContext"
 
 const RED = "#E8402A"
 const FONT = "'DM Sans', sans-serif"
@@ -13,20 +14,20 @@ const FONT = "'DM Sans', sans-serif"
 // ── PinInput Component ──────────────────────────────
 function PinInput({ value, setValue }) {
   const handleChange = (e, index) => {
-    const val = e.target.value.replace(/\D/, "");
-    const arr = value.split("");
-    arr[index] = val;
-    setValue(arr.join("").slice(0, 4));
+    const val = e.target.value.replace(/\D/, "")
+    const arr = value.split("")
+    arr[index] = val
+    setValue(arr.join("").slice(0, 4))
     if (val && index < 3) {
-      document.getElementById(`confirm-pin-${index + 1}`).focus();
+      document.getElementById(`confirm-pin-${index + 1}`).focus()
     }
-  };
+  }
 
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace" && !value[index] && index > 0) {
-      document.getElementById(`confirm-pin-${index - 1}`).focus();
+      document.getElementById(`confirm-pin-${index - 1}`).focus()
     }
-  };
+  }
 
   return (
     <div style={{
@@ -63,9 +64,11 @@ function PinInput({ value, setValue }) {
 // ── ConfirmTransactionPin Page ──────────────────────
 export default function ConfirmTransactionPin() {
   const navigate = useNavigate()
+  const { user, login } = useAuth()
   const [confirmPin, setConfirmPin] = useState("")
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (confirmPin.length < 4) {
       alert("Please enter a complete 4-digit PIN")
       return
@@ -74,14 +77,38 @@ export default function ConfirmTransactionPin() {
     // Get the PIN saved from SetTransactionPin page
     const savedPin = sessionStorage.getItem("transactionPin")
 
-    if (confirmPin === savedPin) {
-      // PINs match — clear sessionStorage and go to dashboard
-      sessionStorage.removeItem("transactionPin")
-      navigate("/home")
-    } else {
+    if (confirmPin !== savedPin) {
       alert("PINs do not match ❌ Please try again")
       setConfirmPin("")
       document.getElementById("confirm-pin-0")?.focus()
+      return
+    }
+
+    setLoading(true)
+
+    try {
+      // Save PIN to JSON Server against the user's account
+      const response = await fetch(`http://localhost:3001/users/${user.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ transactionPin: confirmPin }),
+      })
+
+      if (response.ok) {
+        const updatedUser = await response.json()
+        // Update AuthContext with new user data including PIN
+        login(updatedUser)
+        // Clear PIN from sessionStorage
+        sessionStorage.removeItem("transactionPin")
+        // Navigate to dashboard
+        navigate("/home")
+      } else {
+        alert("Something went wrong. Please try again.")
+      }
+    } catch (err) {
+      alert("Cannot connect to server. Make sure JSON Server is running.")
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -104,8 +131,6 @@ export default function ConfirmTransactionPin() {
         maxWidth: 700,
         padding: "24px 0 16px",
       }}>
-
-        {/* Step 1 — Completed */}
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
           <div style={{
             width: 34, height: 34, borderRadius: 7,
@@ -118,7 +143,6 @@ export default function ConfirmTransactionPin() {
 
         <div style={{ flex: 1, height: 1, backgroundColor: "#E0E0E0", margin: "0 16px" }} />
 
-        {/* Step 2 — Completed */}
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
           <div style={{
             width: 34, height: 34, borderRadius: 7,
@@ -131,7 +155,6 @@ export default function ConfirmTransactionPin() {
 
         <div style={{ flex: 1, height: 1, backgroundColor: "#E0E0E0", margin: "0 16px" }} />
 
-        {/* Step 3 — Active */}
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
           <div style={{
             width: 34, height: 34, borderRadius: 7,
@@ -143,7 +166,6 @@ export default function ConfirmTransactionPin() {
             Upload credentials
           </span>
         </div>
-
       </div>
 
       {/* Divider */}
@@ -156,7 +178,6 @@ export default function ConfirmTransactionPin() {
       {/* ── Main Content ── */}
       <div style={{ width: "100%", maxWidth: 440, textAlign: "center" }}>
 
-        {/* Title */}
         <h1 style={{
           fontSize: 24, fontWeight: 700, color: "#111",
           margin: "0 0 12px", fontFamily: FONT,
@@ -164,7 +185,6 @@ export default function ConfirmTransactionPin() {
           Confirm Transaction PIN
         </h1>
 
-        {/* Subtitle */}
         <p style={{
           fontSize: 14, color: "#777",
           lineHeight: 1.6, margin: "0 0 8px",
@@ -173,28 +193,24 @@ export default function ConfirmTransactionPin() {
           Re-enter your 4-digit PIN to confirm it.
         </p>
 
-        {/* PIN Input */}
         <PinInput value={confirmPin} setValue={setConfirmPin} />
 
-        {/* Submit Button */}
         <button
           onClick={handleSubmit}
+          disabled={loading}
           style={{
-            width: "100%",
-            height: 52,
+            width: "100%", height: 52,
             backgroundColor: RED,
-            color: "#fff",
-            border: "none",
-            borderRadius: 8,
-            fontSize: 16,
-            fontWeight: 600,
-            fontFamily: FONT,
-            cursor: "pointer",
+            color: "#fff", border: "none",
+            borderRadius: 8, fontSize: 16,
+            fontWeight: 600, fontFamily: FONT,
+            cursor: loading ? "not-allowed" : "pointer",
+            opacity: loading ? 0.7 : 1,
             transition: "opacity 0.2s",
             marginTop: 8,
           }}
         >
-          Submit
+          {loading ? "Saving..." : "Submit"}
         </button>
 
       </div>

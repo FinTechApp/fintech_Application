@@ -8,6 +8,16 @@
       "phone": "8139299382",
       "password": "DELL@1234",
       "id": "aYDg7qGfhvA"
+    },
+    {
+      "firstName": "Johnson",
+      "lastName": "Maria",
+      "country": "USA",
+      "email": "maria@gmail.com",
+      "phone": "08067123450",
+      "password": "DELL@1234",
+      "id": "ieqH5f5KHWM",
+      "transactionPin": "2014"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
