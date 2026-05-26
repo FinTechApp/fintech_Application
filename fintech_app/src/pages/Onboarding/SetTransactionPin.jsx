@@ -67,5 +67,5 @@ const SetTransactionPin = () => {
   )
 }
 
-export default SetTransactionPin
+
 
