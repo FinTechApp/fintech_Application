@@ -13,7 +13,7 @@ const FONT = "'DM Sans', sans-serif"
 
 // ── EmailJS Configuration ────────────────────────
 const SERVICE_ID  = "service_nmb9hm6"
-const TEMPLATE_ID = "template_qcjyjbr" // UPDATED: Swapped to your new verified template ID
+const TEMPLATE_ID = "template_qcjyjbr"
 const PUBLIC_KEY  = "IM3yJ-3JgQylTlT8I"
 
 // ── Generate 6-digit OTP ─────────────────────────
