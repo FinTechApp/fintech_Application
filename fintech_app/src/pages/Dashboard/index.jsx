@@ -1,23 +1,31 @@
 // PAGE: Dashboard (Home)
 // This is the main home page after the user logs in.
-// It shows the user's account balance, quick action buttons like 'Send Money',
-// and a list of their most recent transactions.
+// Transfers made and Beneficiaries counts are fetched from JSON Server.
+// Recent transfers are the last 3 transactions from JSON Server.
 // Route: /home
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { useAuth } from "../../context/AuthContext"
 
 const RED = "#E8402A"
 const FONT = "'DM Sans', sans-serif"
 
+// ── Status color helper ───────────────────────────
+const statusColor = (status) => {
+  if (status === "Successful") return "#28a745"
+  if (status === "Pending") return "#D68A00"
+  return RED
+}
+
 // ── Transfer Row ──────────────────────────────────
-const TransferRow = ({ name, amount }) => (
+const TransferRow = ({ recipient, amountReceived, status }) => (
   <div style={{
     display: "flex",
     alignItems: "center",
     gap: 10,
     padding: "10px 14px",
-    backgroundColor: "#F0FAF0",
+    backgroundColor: "#F9F9F9",
     borderRadius: 8,
     marginBottom: 8,
   }}>
@@ -28,22 +36,20 @@ const TransferRow = ({ name, amount }) => (
       fontSize: 14, fontWeight: 700, color: "#2a7a2a",
       flexShrink: 0,
     }}>
-      {name.charAt(0)}
+      {recipient?.charAt(0) || "?"}
     </div>
     <span style={{ fontSize: 13, fontWeight: 500, color: "#111", fontFamily: FONT, flex: 1 }}>
-      {name}
+      {recipient || "—"}
     </span>
-    <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-      <span style={{ fontSize: 14 }}>🇳🇬</span>
-      <span style={{ fontSize: 13, fontWeight: 500, color: "#111", fontFamily: FONT }}>
-        NGN {amount}
-      </span>
-    </div>
-    <span style={{ fontSize: 12, fontWeight: 600, color: "#28a745", fontFamily: FONT, marginLeft: 8 }}>
-      Successful
+    <span style={{ fontSize: 13, fontWeight: 500, color: "#111", fontFamily: FONT }}>
+      {amountReceived || "—"}
     </span>
-    <span style={{ fontSize: 12, fontWeight: 600, color: RED, cursor: "pointer", fontFamily: FONT, marginLeft: 4 }}>
-      View
+    <span style={{
+      fontSize: 12, fontWeight: 600,
+      color: statusColor(status),
+      fontFamily: FONT, marginLeft: 8,
+    }}>
+      {status || "—"}
     </span>
   </div>
 )
@@ -51,8 +57,52 @@ const TransferRow = ({ name, amount }) => (
 // ── Dashboard ─────────────────────────────────────
 const Dashboard = () => {
   const navigate = useNavigate()
+  const { user } = useAuth()
+
   const [sendAmount, setSendAmount] = useState("500")
   const [paymentMethod, setPaymentMethod] = useState("Bank transfer")
+  const RATE = 1700
+
+  const [transferCount, setTransferCount] = useState("—")
+  const [beneficiaryCount, setBeneficiaryCount] = useState("—")
+  const [recentTransfers, setRecentTransfers] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (!user?.id) return
+
+    const fetchDashboardData = async () => {
+      setLoading(true)
+      try {
+        // Fetch transactions and beneficiaries in parallel
+        const [txRes, benRes] = await Promise.all([
+          fetch(`http://localhost:3001/transactions?userId=${user.id}`),
+          fetch(`http://localhost:3001/beneficiaries?userId=${user.id}`),
+        ])
+
+        const transactions = await txRes.json()
+        const beneficiaries = await benRes.json()
+
+        // Set counts
+        setTransferCount(transactions.length)
+        setBeneficiaryCount(beneficiaries.length)
+
+        // Last 3 transactions for recent transfers
+        const last3 = transactions.slice(-3).reverse()
+        setRecentTransfers(last3)
+      } catch (err) {
+        console.error("Failed to load dashboard data", err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchDashboardData()
+  }, [user?.id])
+
+  const receiveAmount = sendAmount
+    ? (parseFloat(sendAmount) * RATE).toLocaleString()
+    : "0"
 
   return (
     <div style={{
@@ -71,7 +121,7 @@ const Dashboard = () => {
           fontSize: 20, fontWeight: 700, color: "#111",
           margin: "0 0 16px", fontFamily: FONT,
         }}>
-          Welcome
+          Welcome, {user?.firstName}
         </h2>
 
         {/* Stat Cards */}
@@ -92,7 +142,9 @@ const Dashboard = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                 </svg>
               </div>
-              <span style={{ fontSize: 26, fontWeight: 700, color: "#111", fontFamily: FONT }}>20</span>
+              <span style={{ fontSize: 26, fontWeight: 700, color: "#111", fontFamily: FONT }}>
+                {loading ? "..." : transferCount}
+              </span>
             </div>
             <p style={{ fontSize: 13, color: "#888", margin: 0, fontFamily: FONT }}>Transfers made</p>
           </div>
@@ -112,7 +164,9 @@ const Dashboard = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
-              <span style={{ fontSize: 26, fontWeight: 700, color: "#111", fontFamily: FONT }}>5</span>
+              <span style={{ fontSize: 26, fontWeight: 700, color: "#111", fontFamily: FONT }}>
+                {loading ? "..." : beneficiaryCount}
+              </span>
             </div>
             <p style={{ fontSize: 13, color: "#888", margin: 0, fontFamily: FONT }}>Beneficiaries</p>
           </div>
@@ -125,12 +179,32 @@ const Dashboard = () => {
           padding: "20px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
           marginBottom: 20,
         }}>
-          <h3 style={{ fontSize: 15, fontWeight: 700, color: "#111", margin: "0 0 14px", fontFamily: FONT }}>
-            Recent transfers
-          </h3>
-          <TransferRow name="Elizabeth Moses" amount="650, 000" />
-          <TransferRow name="Aisha Ibrahim" amount="850, 000" />
-          <TransferRow name="Murtala Muktar" amount="850, 000" />
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+            <h3 style={{ fontSize: 15, fontWeight: 700, color: "#111", margin: 0, fontFamily: FONT }}>
+              Recent transfers
+            </h3>
+            <span
+              onClick={() => navigate("/transactions")}
+              style={{ fontSize: 12, color: RED, fontWeight: 600, cursor: "pointer", fontFamily: FONT }}
+            >
+              View all
+            </span>
+          </div>
+
+          {loading ? (
+            <p style={{ fontSize: 13, color: "#999", fontFamily: FONT }}>Loading...</p>
+          ) : recentTransfers.length === 0 ? (
+            <p style={{ fontSize: 13, color: "#999", fontFamily: FONT }}>No transfers yet.</p>
+          ) : (
+            recentTransfers.map((tx) => (
+              <TransferRow
+                key={tx.id}
+                recipient={tx.recipient}
+                amountReceived={tx.amountReceived}
+                status={tx.status}
+              />
+            ))
+          )}
         </div>
 
         {/* Current Limits */}
@@ -201,30 +275,27 @@ const Dashboard = () => {
         {/* Payment Method */}
         <div style={{ backgroundColor: "#F5F5F5", borderRadius: 8, padding: "12px 14px", marginBottom: 10 }}>
           <p style={{ fontSize: 11, color: "#999", margin: "0 0 4px", fontFamily: FONT }}>Payment method</p>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <select
-              value={paymentMethod}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-              style={{
-                border: "none", background: "none",
-                fontSize: 14, fontWeight: 500, color: "#111",
-                fontFamily: FONT, outline: "none", width: "100%", cursor: "pointer",
-              }}
-            >
-              <option>Bank transfer</option>
-              <option>Card payment</option>
-            </select>
-          </div>
+          <select
+            value={paymentMethod}
+            onChange={(e) => setPaymentMethod(e.target.value)}
+            style={{
+              border: "none", background: "none",
+              fontSize: 14, fontWeight: 500, color: "#111",
+              fontFamily: FONT, outline: "none", width: "100%", cursor: "pointer",
+            }}
+          >
+            <option>Bank transfer</option>
+            <option>Card payment</option>
+          </select>
         </div>
-
-        {/* Empty recipient input */}
-        <div style={{ backgroundColor: "#F5F5F5", borderRadius: 8, padding: "12px 14px", marginBottom: 10, height: 52 }} />
 
         {/* Recipient gets */}
         <div style={{ backgroundColor: "#F5F5F5", borderRadius: 8, padding: "12px 14px", marginBottom: 16 }}>
           <p style={{ fontSize: 11, color: "#999", margin: "0 0 4px", fontFamily: FONT }}>Recipient gets</p>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span style={{ fontSize: 18, fontWeight: 600, color: "#111", fontFamily: FONT }}>850,000</span>
+            <span style={{ fontSize: 18, fontWeight: 600, color: "#111", fontFamily: FONT }}>
+              {receiveAmount}
+            </span>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <span style={{ fontSize: 16 }}>🇳🇬</span>
               <span style={{ fontSize: 13, fontWeight: 600, color: "#111", fontFamily: FONT }}>NGN</span>
@@ -242,7 +313,9 @@ const Dashboard = () => {
               <div style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: RED }} />
               <span style={{ fontSize: 13, color: "#555", fontFamily: FONT }}>Rate</span>
             </div>
-            <span style={{ fontSize: 13, fontWeight: 500, color: "#111", fontFamily: FONT }}>1 UK = 1700 NGN</span>
+            <span style={{ fontSize: 13, fontWeight: 500, color: "#111", fontFamily: FONT }}>
+              1 UK = {RATE} NGN
+            </span>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>

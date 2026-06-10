@@ -1,18 +1,23 @@
 // PAGE: Transfer
 // This is the full dedicated transfer page.
-// The user selects a beneficiary, enters the amount and currency,
-// chooses a payment method and clicks Continue to proceed.
+// The user selects a beneficiary from their saved list (fetched from JSON Server),
+// enters the amount and currency, chooses a payment method and clicks Continue.
 // Route: /transfer
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { useAuth } from "../../context/AuthContext"
 
 const RED = "#E8402A"
 const FONT = "'DM Sans', sans-serif"
 
 const Transfer = () => {
   const navigate = useNavigate()
+  const { user } = useAuth()
   const RATE = 1700
+
+  const [beneficiaries, setBeneficiaries] = useState([])
+  const [loadingBeneficiaries, setLoadingBeneficiaries] = useState(true)
 
   const [form, setForm] = useState({
     beneficiary: "",
@@ -23,11 +28,25 @@ const Transfer = () => {
     receiveCurrency: "NGN",
   })
 
-  const beneficiaries = [
-    { id: 1, name: "Elizabeth Moses", bank: "GTBank", account: "0123456789" },
-    { id: 2, name: "Aisha Ibrahim", bank: "Access Bank", account: "9876543210" },
-    { id: 3, name: "Murtala Muktar", bank: "Zenith Bank", account: "1122334455" },
-  ]
+  // ── Fetch beneficiaries from JSON Server ──────────
+  useEffect(() => {
+    if (!user?.id) return
+
+    const fetchBeneficiaries = async () => {
+      setLoadingBeneficiaries(true)
+      try {
+        const res = await fetch(`http://localhost:3001/beneficiaries?userId=${user.id}`)
+        const data = await res.json()
+        setBeneficiaries(data)
+      } catch (err) {
+        console.error("Could not load beneficiaries", err)
+      } finally {
+        setLoadingBeneficiaries(false)
+      }
+    }
+
+    fetchBeneficiaries()
+  }, [user?.id])
 
   const handleSendAmountChange = (e) => {
     const amount = e.target.value
@@ -48,9 +67,7 @@ const Transfer = () => {
       return
     }
 
-    const selectedBeneficiary = beneficiaries.find(
-      (b) => b.id === parseInt(form.beneficiary)
-    )
+    const selectedBeneficiary = beneficiaries.find((b) => b.id === form.beneficiary)
 
     const referenceNo = Math.random().toString(36).substr(2, 16).toUpperCase()
     const now = new Date()
@@ -63,11 +80,12 @@ const Transfer = () => {
 
     sessionStorage.setItem("transferDetails", JSON.stringify({
       referenceNo,
-      recipient: selectedBeneficiary?.name,
+      recipient: selectedBeneficiary?.accountName,
       amountSent: `${form.sendAmount} ${form.sendCurrency}`,
       amountReceived: `${form.receiveCurrency} ${form.receiveAmount}`,
       bankName: selectedBeneficiary?.bank,
-      accountNumber: selectedBeneficiary?.account,
+      accountNumber: selectedBeneficiary?.accountNumber,
+      bankLocation: selectedBeneficiary?.bankLocation,
       paymentMethod: form.paymentMethod,
       transactionDate: dateStr,
       completedOn: `${dateStr}. ${timeStr}`,
@@ -111,12 +129,31 @@ const Transfer = () => {
                   outline: "none", width: "100%", cursor: "pointer",
                 }}
               >
-                <option value="">— Select a beneficiary —</option>
+                <option value="">
+                  {loadingBeneficiaries ? "Loading..." : "— Select a beneficiary —"}
+                </option>
                 {beneficiaries.map((b) => (
-                  <option key={b.id} value={b.id}>{b.name} — {b.bank}</option>
+                  <option key={b.id} value={b.id}>
+                    {b.accountName} — {b.bank}
+                  </option>
                 ))}
               </select>
             </div>
+            {/* No beneficiaries nudge */}
+            {!loadingBeneficiaries && beneficiaries.length === 0 && (
+              <p style={{
+                fontSize: 12, color: RED,
+                margin: "6px 0 0", fontFamily: FONT,
+              }}>
+                No beneficiaries found.{" "}
+                <span
+                  onClick={() => navigate("/beneficiaries/add")}
+                  style={{ textDecoration: "underline", cursor: "pointer" }}
+                >
+                  Add one here
+                </span>
+              </p>
+            )}
           </div>
 
           {/* You send */}

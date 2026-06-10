@@ -1,29 +1,13 @@
 // PAGE: Transfer Receipt (Step 4)
 // This is the receipt page shown after a transfer is completed.
-// It shows all the details of the transfer including reference number,
-// recipient, amount, bank details and download/share options.
+// It reads real transfer details from sessionStorage.
 // Route: /transfer/receipt
 
+import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 const RED = "#E8402A"
 const FONT = "'DM Sans', sans-serif"
-
-// ── Static receipt data ───────────────────────────
-// In a real app this would come from the transfer response
-const receiptData = {
-  referenceNo: "89578833456593334",
-  status: "Success",
-  transactionDate: "24th August, 2024",
-  recipient: "Musa Ibrahim",
-  amountSent: "500 UK",
-  completedOn: "24th August, 2024. 9:00am",
-  fee: "0",
-  paymentMethod: "Bank transfer",
-  amountReceived: "NGN 850,000",
-  bankName: "United Bank For Africa",
-  accountNumber: "2345236xxx",
-}
 
 // ── Detail Row ────────────────────────────────────
 const DetailRow = ({ label, value, isStatus }) => (
@@ -34,10 +18,7 @@ const DetailRow = ({ label, value, isStatus }) => (
     padding: "14px 0",
     borderBottom: "1px solid #F5F5F5",
   }}>
-    <span style={{
-      fontSize: 14, color: "#555",
-      fontFamily: FONT, fontWeight: 400,
-    }}>
+    <span style={{ fontSize: 14, color: "#555", fontFamily: FONT, fontWeight: 400 }}>
       {label}
     </span>
 
@@ -69,6 +50,14 @@ const DetailRow = ({ label, value, isStatus }) => (
 const TransferReceipt = () => {
   const navigate = useNavigate()
 
+  // ── Read real transfer details from sessionStorage ──
+  const details = JSON.parse(sessionStorage.getItem("transferDetails") || "{}")
+
+  // Clear sessionStorage once receipt is shown so data doesn't linger
+  useEffect(() => {
+    return () => sessionStorage.removeItem("transferDetails")
+  }, [])
+
   const handleDownloadPDF = () => {
     alert("Download PDF feature coming soon!")
   }
@@ -87,29 +76,20 @@ const TransferReceipt = () => {
       flexDirection: "column",
       alignItems: "center",
     }}>
-
-      {/* ── Content wrapper ── */}
       <div style={{ width: "100%", maxWidth: 560, position: "relative" }}>
 
         {/* ── Go home ── */}
         <div
           onClick={() => navigate("/home")}
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-            cursor: "pointer",
-            marginBottom: 24,
-            width: "fit-content",
+            display: "flex", alignItems: "center", gap: 6,
+            cursor: "pointer", marginBottom: 24, width: "fit-content",
           }}
         >
           <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke={RED} strokeWidth="2.5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
-          <span style={{
-            fontSize: 14, fontWeight: 600,
-            color: RED, fontFamily: FONT,
-          }}>
+          <span style={{ fontSize: 14, fontWeight: 600, color: RED, fontFamily: FONT }}>
             Go home
           </span>
         </div>
@@ -117,84 +97,63 @@ const TransferReceipt = () => {
         {/* ── Title ── */}
         <div style={{ textAlign: "center", marginBottom: 32 }}>
           <h1 style={{
-            fontSize: 22, fontWeight: 700,
-            color: "#111", margin: "0 0 6px",
-            fontFamily: FONT,
+            fontSize: 22, fontWeight: 700, color: "#111",
+            margin: "0 0 6px", fontFamily: FONT,
           }}>
-            {receiptData.amountSent} Sent
+            {details.amountSent || "—"} Sent
           </h1>
-          <p style={{
-            fontSize: 14, color: "#555",
-            margin: 0, fontFamily: FONT,
-          }}>
-            Transfer to {receiptData.recipient}
+          <p style={{ fontSize: 14, color: "#555", margin: 0, fontFamily: FONT }}>
+            Transfer to {details.recipient || "—"}
           </p>
         </div>
 
         {/* ── Transaction Details ── */}
         <div style={{ marginBottom: 32 }}>
-          <DetailRow label="Reference No" value={receiptData.referenceNo} />
-          <DetailRow label="Status" value={receiptData.status} isStatus />
-          <DetailRow label="Transaction date" value={receiptData.transactionDate} />
-          <DetailRow label="Recipient" value={receiptData.recipient} />
-          <DetailRow label="Amount sent" value={receiptData.amountSent} />
-          <DetailRow label="Completed on" value={receiptData.completedOn} />
-          <DetailRow label="Fee" value={receiptData.fee} />
-          <DetailRow label="Payment method" value={receiptData.paymentMethod} />
+          <DetailRow label="Reference No"       value={details.referenceNo || "—"} />
+          <DetailRow label="Status"             value="Success" isStatus />
+          <DetailRow label="Transaction date"   value={details.transactionDate || "—"} />
+          <DetailRow label="Recipient"          value={details.recipient || "—"} />
+          <DetailRow label="Amount sent"        value={details.amountSent || "—"} />
+          <DetailRow label="Completed on"       value={details.completedOn || "—"} />
+          <DetailRow label="Fee"                value={details.fee || "0"} />
+          <DetailRow label="Payment method"     value={details.paymentMethod || "—"} />
         </div>
 
         {/* ── Receiver Details ── */}
         <div style={{ marginBottom: 40 }}>
           <h3 style={{
-            fontSize: 16, fontWeight: 700,
-            color: "#111", margin: "0 0 4px",
-            fontFamily: FONT,
+            fontSize: 16, fontWeight: 700, color: "#111",
+            margin: "0 0 4px", fontFamily: FONT,
           }}>
             Receiver details
           </h3>
-          <DetailRow label="Amount received" value={receiptData.amountReceived} />
-          <DetailRow label="Bank name" value={receiptData.bankName} />
-          <DetailRow label="Account number" value={receiptData.accountNumber} />
+          <DetailRow label="Amount received"  value={details.amountReceived || "—"} />
+          <DetailRow label="Bank name"        value={details.bankName || "—"} />
+          <DetailRow label="Account number"   value={details.accountNumber || "—"} />
         </div>
 
         {/* ── Buttons ── */}
-        <div style={{
-          display: "flex",
-          gap: 16,
-        }}>
-          {/* Download PDF */}
+        <div style={{ display: "flex", gap: 16 }}>
           <button
             onClick={handleDownloadPDF}
             style={{
-              flex: 1,
-              height: 48,
-              backgroundColor: "#E8E8E8",
-              color: "#111",
-              border: "none",
-              borderRadius: 8,
-              fontSize: 15,
-              fontWeight: 600,
-              fontFamily: FONT,
-              cursor: "pointer",
+              flex: 1, height: 48,
+              backgroundColor: "#E8E8E8", color: "#111",
+              border: "none", borderRadius: 8,
+              fontSize: 15, fontWeight: 600,
+              fontFamily: FONT, cursor: "pointer",
             }}
           >
             Download PDF
           </button>
-
-          {/* Share PDF */}
           <button
             onClick={handleSharePDF}
             style={{
-              flex: 1,
-              height: 48,
-              backgroundColor: RED,
-              color: "#fff",
-              border: "none",
-              borderRadius: 8,
-              fontSize: 15,
-              fontWeight: 600,
-              fontFamily: FONT,
-              cursor: "pointer",
+              flex: 1, height: 48,
+              backgroundColor: RED, color: "#fff",
+              border: "none", borderRadius: 8,
+              fontSize: 15, fontWeight: 600,
+              fontFamily: FONT, cursor: "pointer",
             }}
           >
             Share PDF

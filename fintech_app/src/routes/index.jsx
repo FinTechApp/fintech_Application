@@ -64,6 +64,22 @@ const AppRoutes = () => {
       <Route path="/onboarding/set-pin" element={<SetTransactionPin />} />
       <Route path="/onboarding/confirm-pin" element={<ConfirmTransactionPin />} />
 
+      {/* ── Fullscreen Transfer Pages (no sidebar) ── */}
+      {/* These are outside DashboardLayout intentionally —  */}
+      {/* they are fullscreen flows that don't need the sidebar */}
+      <Route path="/transfer/success" element={
+        <ProtectedRoute><TransferSuccess /></ProtectedRoute>
+      } />
+      <Route path="/transfer/receipt" element={
+        <ProtectedRoute><TransferReceipt /></ProtectedRoute>
+      } />
+      <Route path="/transfer/enter-pin" element={
+        <ProtectedRoute><EnterPin /></ProtectedRoute>
+      } />
+      <Route path="/transfer/review" element={
+        <ProtectedRoute><ReviewTransfer /></ProtectedRoute>
+      } />
+
       {/* ── Protected Routes — all share DashboardLayout with persistent sidebar ── */}
       <Route
         element={
@@ -77,10 +93,6 @@ const AppRoutes = () => {
         <Route path="/transactions" element={<TransactionHistory />} />
         <Route path="/transactions/:id/receipt" element={<TransactionReceipt />} />
         <Route path="/transfer" element={<Transfer />} />
-        <Route path="/transfer/review" element={<ReviewTransfer />} />
-        <Route path="/transfer/enter-pin" element={<EnterPin />} />
-        <Route path="/transfer/receipt" element={<TransferReceipt />} />
-        <Route path="/transfer/success" element={<TransferSuccess />} />
         <Route path="/beneficiaries" element={<BeneficiaryList />} />
         <Route path="/beneficiaries/add" element={<AddBeneficiary />} />
         <Route path="/limits" element={<AccountLimits />} />

@@ -74,6 +74,12 @@ export default function ConfirmTransactionPin() {
       return
     }
 
+    if (!user?.id) {
+    alert("Session expired. Please sign in again.")
+    navigate("/signin")
+    return
+  }
+
     // Get the PIN saved from SetTransactionPin page
     const savedPin = sessionStorage.getItem("transactionPin")
 

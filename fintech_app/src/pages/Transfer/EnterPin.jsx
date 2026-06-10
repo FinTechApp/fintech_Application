@@ -2,6 +2,7 @@
 // This is the third step of sending money.
 // The user enters their 4-digit transaction PIN to authorize the transfer.
 // This is the security check that happens before money is sent.
+// After PIN is verified, the transaction is saved to JSON Server.
 // Route: /transfer/enter-pin
 
 import { useState } from "react"
@@ -80,19 +81,50 @@ const EnterPin = () => {
     setError("")
 
     try {
-      // Fetch user from JSON Server to get saved PIN
+      // Step 1 — Verify PIN against JSON Server
       const response = await fetch(`http://localhost:3001/users/${user.id}`)
       const userData = await response.json()
 
-      if (userData.transactionPin === pin) {
-        // PIN matches — proceed to receipt
-        navigate("/transfer/receipt")
-      } else {
-        // PIN does not match
+      if (userData.transactionPin !== pin) {
         setError("Incorrect PIN. Please try again.")
         setPin("")
         document.getElementById("enter-pin-0")?.focus()
+        setLoading(false)
+        return
       }
+
+      // Step 2 — PIN matches, read transfer details from sessionStorage
+      const details = JSON.parse(sessionStorage.getItem("transferDetails") || "{}")
+
+      // Step 3 — Save transaction to JSON Server
+      const txRes = await fetch("http://localhost:3001/transactions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          reference: details.referenceNo,
+          amountSent: details.amountSent,
+          rate: details.rate,
+          channel: details.paymentMethod,
+          recipient: details.recipient,
+          bankName: details.bankName,
+          accountNumber: details.accountNumber,
+          amountReceived: details.amountReceived,
+          fee: details.fee,
+          date: new Date().toISOString().split("T")[0],
+          completedOn: details.completedOn,
+          status: "Successful",
+        }),
+      })
+
+      if (!txRes.ok) {
+        console.error("Failed to save transaction to server")
+      }
+
+      // Step 4 — Go to success page
+      // ⚠️ Do NOT clear sessionStorage here — receipt page still needs it
+      navigate("/transfer/success")
+
     } catch (err) {
       setError("Cannot connect to server. Make sure JSON Server is running.")
     } finally {
@@ -191,7 +223,7 @@ const EnterPin = () => {
             transition: "opacity 0.2s",
           }}
         >
-          {loading ? "Verifying..." : "Confirm"}
+          {loading ? "Processing..." : "Confirm"}
         </button>
 
       </div>

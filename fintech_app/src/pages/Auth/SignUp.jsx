@@ -7,6 +7,7 @@
 
 import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { useAuth } from "../../context/AuthContext"
 
 const RED = "#E8402A"
 const FONT = "'DM Sans', sans-serif"
@@ -85,6 +86,7 @@ const SignUp = () => {
 
   // ── useNavigate hook — allows navigation to next page ──
   const navigate = useNavigate()
+  const { login } = useAuth()
 
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
@@ -152,8 +154,10 @@ const SignUp = () => {
     })
 
     if (response.ok) {
-      navigate("/verify-email")
-    } else {
+  const newUser = await response.json()  // ← get user object with id from JSON Server
+  login(newUser)                          // ← save to context + localStorage
+  navigate("/verify-email")
+} else {
       setError("Something went wrong. Please try again.")
     }
   } catch (err) {
