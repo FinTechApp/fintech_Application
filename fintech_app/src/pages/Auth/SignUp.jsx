@@ -7,6 +7,8 @@
 
 import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { useAuth } from "../../context/AuthContext"
+const logo = "/logo2.png"
 
 const RED = "#E8402A"
 const FONT = "'DM Sans', sans-serif"
@@ -85,10 +87,13 @@ const SignUp = () => {
 
   // ── useNavigate hook — allows navigation to next page ──
   const navigate = useNavigate()
+  const { login } = useAuth()
 
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const [agreed, setAgreed] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -102,9 +107,66 @@ const SignUp = () => {
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
   // ── When Next is clicked, navigate to Verify Email page ──
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    navigate("/verify-email")
+    setError("")
+
+    if (!form.firstName || !form.lastName || !form.email || !form.password) {
+      setError("Please fill in all required fields")
+      return
+    }
+
+    if (form.password !== form.confirmPassword) {
+      setError("Passwords do not match")
+      return
+    }
+
+    if (!agreed) {
+      setError("Please agree to the terms and conditions")
+      return
+    }
+
+    setLoading(true)
+
+    try {
+      // Check if email already exists
+      const checkResponse = await fetch(
+        `http://localhost:3001/users?email=${form.email}`
+      )
+      const existingUsers = await checkResponse.json()
+
+      if (existingUsers.length > 0) {
+        setError("An account with this email already exists. Please sign in.")
+        setLoading(false)
+        return
+      }
+
+      // Save new user to JSON Server
+      const response = await fetch("http://localhost:3001/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: form.firstName,
+          lastName: form.lastName,
+          country: form.country,
+          email: form.email,
+          phone: form.phone,
+          password: form.password,
+        }),
+      })
+
+      if (response.ok) {
+        const newUser = await response.json()
+        login(newUser)
+        navigate("/verify-email")
+      } else {
+        setError("Something went wrong. Please try again.")
+      }
+    } catch (err) {
+      setError("Cannot connect to server. Make sure JSON Server is running.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -145,9 +207,11 @@ const SignUp = () => {
 
         {/* Logo — BOTTOM */}
         <div style={{ position: "relative", zIndex: 1, paddingBottom: 20, textAlign: "center" }}>
-          <span style={{ color: "#fff", fontWeight: 700, fontSize: 20, fontFamily: FONT }}>
-            Logo
-          </span>
+          <img
+            src={logo}
+            alt="Logo"
+            style={{ height: 36, objectFit: "contain" }}
+          />
         </div>
       </div>
 
@@ -162,9 +226,11 @@ const SignUp = () => {
 
         {/* Logo top right */}
         <div style={{ display: "flex", justifyContent: "flex-end", padding: "22px 36px 0" }}>
-          <span style={{ fontWeight: 700, fontSize: 22, color: "#111", fontFamily: FONT }}>
-            Logo
-          </span>
+          <img
+            src={logo}
+            alt="Logo"
+            style={{ height: 36, objectFit: "contain" }}
+          />
         </div>
 
         {/* ── Step Indicator ── */}
@@ -254,6 +320,22 @@ const SignUp = () => {
               </Link>
             </p>
 
+            {error && (
+              <div style={{
+                backgroundColor: "#FFF0EE",
+                border: `1px solid ${RED}`,
+                borderRadius: 6,
+                padding: "10px 14px",
+                marginBottom: 16,
+                fontSize: 13,
+                color: RED,
+                fontFamily: FONT,
+                textAlign: "center",
+              }}>
+                {error}
+              </div>
+            )}
+
             {/* Blue border form box */}
             <form onSubmit={handleSubmit}>
               <div style={{
@@ -320,7 +402,7 @@ const SignUp = () => {
 
                 <button
                   type="submit"
-                  disabled={!agreed}
+                  disabled={!agreed || loading}
                   style={{
                     backgroundColor: RED,
                     color: "#fff",
@@ -330,13 +412,13 @@ const SignUp = () => {
                     fontSize: 15,
                     fontWeight: 600,
                     fontFamily: FONT,
-                    cursor: agreed ? "pointer" : "not-allowed",
-                    opacity: agreed ? 1 : 0.6,
+                    cursor: agreed && !loading ? "pointer" : "not-allowed",
+                    opacity: agreed && !loading ? 1 : 0.6,
                     transition: "opacity 0.2s",
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Next
+                  {loading ? "Please wait..." : "Next"}
                 </button>
 
               </div>
