@@ -8,7 +8,7 @@
 import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../../context/AuthContext"
-const logo = "/logo.png"
+const logo = "/logo.jpg"
 
 const RED = "#E8402A"
 const FONT = "'DM Sans', sans-serif"
